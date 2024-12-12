@@ -30,6 +30,23 @@ public class dayTwo {
 		
 	}
 	
+	public static boolean isSafeWithDampener(String[] list) {
+	    int length = list.length;
+	    for (int i = 0; i < length; i++) {
+	        ArrayList<Integer> modifiedList = new ArrayList<>();
+	        for (int j = 0; j < length; j++) {
+	            if (j != i) { // Skip one element
+	                modifiedList.add(Integer.valueOf(list[j]));
+	            }
+	        }
+	        if (increasing(modifiedList.stream().map(String::valueOf).toArray(String[]::new)) ||
+	            decreasing(modifiedList.stream().map(String::valueOf).toArray(String[]::new))) {
+	            return true; // Safe after removing one level
+	        }
+	    }
+	    return false;
+	}
+	
 	public static boolean decreasing(String[] list) {
 		
 		for(int i = 1; i < list.length; i++) {
@@ -52,23 +69,6 @@ public class dayTwo {
 		
 	}
 	
-//	public static boolean isSafe(String[] list) {
-//		
-//		for(int i = 1; i < list.length-1; i++) {
-//		int point1 = Integer.valueOf(list[i]);
-//		int point0 = Integer.valueOf(list[i-1]);
-//
-//		
-////didnt find bad pairs
-//			if (point1 == point0) {
-//				return true;
-//
-//			}else{
-//				return false;
-//			}	
-//		}
-//		return false;
-//	}
 
 	public static void main(String[] args) {
 
@@ -80,7 +80,9 @@ public class dayTwo {
 			
 			Scanner scan = new Scanner(file);
 			int count = 0;
+			
 			while(scan.hasNext()) {
+
 //grab one line
 			String line = scan.nextLine();
 				
@@ -88,10 +90,10 @@ public class dayTwo {
 			String[] points = line.split(" ");
 			
 			System.out.println(Arrays.toString(points));
-			if (increasing(points) || decreasing(points)) {
+			if (increasing(points) || decreasing(points)|| isSafeWithDampener(points) ) { 
 				count++;
 			} else {
-				System.out.println(Arrays.toString(points));
+				System.out.println("Unsafe Reports:" + Arrays.toString(points));
 			}
 			
 			}
